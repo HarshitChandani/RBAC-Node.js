@@ -1,0 +1,14 @@
+{ 
+   "UserRoles_Permissions": {
+      "Admin":[ 
+            "CreateTask", 
+            "GetTask"
+         ],
+      "Anonymous":[ 
+         "GetTask" 
+      ]   
+   }
+}
+
+
+ 
