@@ -2,20 +2,31 @@ const express = require("express");
 const TaskController = require('../controllers/TaskController');
 const RbacMiddleware = require('../middlewares/RbacMiddleware');
 
-const route = express.Router();
 
-function AssignRole(role = 'Admin'){
-   return (req,res,next) => {
-      try {
-         req.user_role = role;
-         next();
-      } catch (error) {
-         res.send({msg: null,error: error.message});
+class TaskRouter {
+   router = express.Router();
+   task_controller = new TaskController();
+
+   constructor(){
+      this.initializeRouter();
+   }
+   
+   AssignRole(role = 'Admin'){
+      return (req,res,next) => {
+         try {
+            req.user_role = role;
+            next();
+         } catch (error) {
+            res.send({msg: null,error: error.message});
+         }
       }
    }
+
+   initializeRouter(){
+      this.router.post('/create',this.AssignRole('Admin'),RbacMiddleware.checkPermission('CreateTask'),this.task_controller.CreateTask);
+      this.router.get('/get-all',this.AssignRole('Anonymous'),RbacMiddleware.checkPermission('GetTask'),this.task_controller.GetTask);
+   }
+
 }
 
-route.post('/create',AssignRole('Admin'),RbacMiddleware.checkPermission('CreateTask'),TaskController.CreateTask);
-route.get('/get-all',AssignRole('Anonymous'),RbacMiddleware.checkPermission('GetTask'),TaskController.GetAllTask);
-
-module.exports = route;
+module.exports = new TaskRouter().router;

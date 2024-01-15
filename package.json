@@ -4,12 +4,15 @@
   "description": "Role Based Access Control Implementation using Node.js|Express",
   "main": "app.js",
   "scripts": {
-    "start":"node ./bin/www",
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Harshit Chandani",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
   }
 }
